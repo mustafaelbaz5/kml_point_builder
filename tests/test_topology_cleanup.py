@@ -61,7 +61,7 @@ def test_open_space_on_project_edge_is_not_treated_as_gap():
 
 
 def test_three_way_overlap_is_rebuilt_without_remaining_overlap():
-    source = parcels([box(0, 0, 12, 20), box(8, 0, 20, 20), box(4, 8, 16, 22)])
+    source = parcels([box(0, 0, 12, 10), box(8, 0, 20, 10), box(9, 8, 11, 20)])
 
     result = _topology_cleanup(source, tolerance_m=5)
 

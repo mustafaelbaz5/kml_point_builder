@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 from shapely import Geometry, make_valid, voronoi_polygons
+from shapely.errors import GEOSException
 from shapely.geometry import GeometryCollection, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon
 from shapely.ops import polylabel
 
@@ -33,6 +34,16 @@ def safe_interior_point(geometry: Polygon | MultiPolygon, tolerance_m: float = 0
     return point if geometry.contains(point) else geometry.representative_point()
 
 
+def maximum_width_m(geometry: Polygon | MultiPolygon) -> float:
+    """Return the widest internal span, avoiding repair of broad conflict areas."""
+    parts = geometry.geoms if isinstance(geometry, MultiPolygon) else [geometry]
+    widths = []
+    for part in parts:
+        point = safe_interior_point(part)
+        widths.append(2 * point.distance(part.boundary))
+    return max(widths, default=0.0)
+
+
 def interior_gap_polygons(boundaries: Iterable[Geometry], coverage: Geometry):
     """Find only enclosed holes bounded by parcel edges.
 
@@ -59,7 +70,8 @@ def sample_boundary(geometry: Geometry, spacing_m: float) -> list[Point]:
     for line in parts:
         if line.length == 0:
             continue
-        sample_count = max(2, int(line.length / spacing_m) + 1)
+        # Bound the cost of Voronoi construction for long, highly detailed lines.
+        sample_count = min(300, max(2, int(line.length / spacing_m) + 1))
         points.extend(line.interpolate(position / (sample_count - 1), normalized=True) for position in range(sample_count))
     return points
 
@@ -73,24 +85,43 @@ def allocate_region_on_midlines(region: Polygon, neighbours: dict[object, Geomet
     """
     if len(neighbours) < 2:
         return None
-    sample_spacing = min(0.5, max(0.1, tolerance_m / 10))
     region_context = region.buffer(tolerance_m)
-    samples: list[Point] = []
+    local_boundaries = []
     for geometry in neighbours.values():
-        local_boundary = geometry.boundary.intersection(region_context)
-        samples.extend(sample_boundary(local_boundary if not local_boundary.is_empty else geometry, sample_spacing))
+        local = geometry.boundary.intersection(region_context)
+        local_boundaries.append(local if not local.is_empty else geometry.boundary)
+    total_boundary_length = sum(boundary.length for boundary in local_boundaries)
+    # Limit the Voronoi input for large connected error clusters. At a 5 m
+    # cleanup tolerance, this still resolves the shared midline well within the
+    # correction band while keeping a country-scale KML responsive.
+    sample_spacing = max(0.5, tolerance_m / 2, total_boundary_length / 600)
+    labelled_samples: list[tuple[object, Point]] = []
+    for key, boundary in zip(neighbours, local_boundaries):
+        labelled_samples.extend((key, point) for point in sample_boundary(boundary, sample_spacing))
+    # Exact duplicate coordinates on shared source lines destabilize some GEOS
+    # Voronoi builds. Keep one labelled sample per millimetre grid location.
+    unique_samples: dict[tuple[float, float], tuple[object, Point]] = {}
+    for key, point in labelled_samples:
+        unique_samples.setdefault((round(point.x, 3), round(point.y, 3)), (key, point))
+    labelled_samples = list(unique_samples.values())
+    samples = [point for _, point in labelled_samples]
     if len(samples) < 4:
         return None
 
-    diagram = voronoi_polygons(MultiPoint(samples), extend_to=region_context.envelope)
+    try:
+        diagram = voronoi_polygons(MultiPoint(samples), tolerance=0.001, extend_to=region_context.envelope)
+    except GEOSException:
+        return None
     allocations: dict[object, list[Geometry]] = {key: [] for key in neighbours}
     for cell in diagram.geoms:
         clipped = cell.intersection(region)
         if clipped.is_empty or clipped.area == 0:
             continue
         probe = clipped.representative_point()
-        distances = {key: probe.distance(geometry.boundary) for key, geometry in neighbours.items()}
-        winner = min(distances, key=distances.get)
+        # Assign from the nearest labelled boundary sample. This directly
+        # preserves each parcel's influence in a multi-parcel overlap rather
+        # than depending on iteration order or polygon area.
+        winner = min(labelled_samples, key=lambda item: probe.distance(item[1]))[0]
         allocations[winner].append(clipped)
 
     from shapely.ops import unary_union

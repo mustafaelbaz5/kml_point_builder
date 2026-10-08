@@ -1,0 +1,559 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.10, pytest-9.1.1, pluggy-1.6.0 -- D:\WORK\python_projects\kml_point_builder\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\WORK\python_projects\kml_point_builder
+configfile: pyproject.toml
+collecting ... collected 1 item
+
+tests/test_topology_cleanup.py::test_internal_gap_between_four_parcels_is_distributed_without_overlap FAILED [100%]
+
+================================== FAILURES ===================================
+____ test_internal_gap_between_four_parcels_is_distributed_without_overlap ____
+
+self = Empty GeoDataFrame
+Columns: []
+Index: [], col = 'geometry', drop = None
+inplace = True
+crs = <Projected CRS: EPSG:32636>
+Name: WGS 84 / UTM zone 36N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: ...method: Transverse Mercator
+Datum: World Geodetic System 1984 ensemble
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+
+
+    def set_geometry(
+        self,
+        col,
+        drop: bool | None = None,
+        inplace: bool = False,
+        crs: Any | None = None,
+    ) -> GeoDataFrame | None:
+        """
+        Set the GeoDataFrame geometry using either an existing column or
+        the specified input. By default yields a new object.
+    
+        The original geometry column is replaced with the input.
+    
+        Parameters
+        ----------
+        col : column label or array-like
+            An existing column name or values to set as the new geometry column.
+            If values (array-like, (Geo)Series) are passed, then if they are named
+            (Series) the new geometry column will have the corresponding name,
+            otherwise the existing geometry column will be replaced. If there is
+            no existing geometry column, the new geometry column will use the
+            default name "geometry".
+        drop : boolean, default False
+            When specifying a named Series or an existing column name for `col`,
+            controls if the previous geometry column should be dropped from the
+            result. The default of False keeps both the old and new geometry column.
+    
+            .. deprecated:: 1.0.0
+    
+        inplace : boolean, default False
+            Modify the GeoDataFrame in place (do not create a new object)
+        crs : pyproj.CRS, optional
+            Coordinate system to use. The value can be anything accepted
+            by :meth:`pyproj.CRS.from_user_input() <pyproj.crs.CRS.from_user_input>`,
+            such as an authority string (eg "EPSG:4326") or a WKT string.
+            If passed, overrides both DataFrame and col's crs.
+            Otherwise, tries to get crs from passed col values or DataFrame.
+    
+        Examples
+        --------
+        >>> from shapely.geometry import Point
+        >>> d = {'col1': ['name1', 'name2'], 'geometry': [Point(1, 2), Point(2, 1)]}
+        >>> gdf = geopandas.GeoDataFrame(d, crs="EPSG:4326")
+        >>> gdf
+            col1     geometry
+        0  name1  POINT (1 2)
+        1  name2  POINT (2 1)
+    
+        Passing an array:
+    
+        >>> df1 = gdf.set_geometry([Point(0,0), Point(1,1)])
+        >>> df1
+            col1     geometry
+        0  name1  POINT (0 0)
+        1  name2  POINT (1 1)
+    
+        Using existing column:
+    
+        >>> gdf["buffered"] = gdf.buffer(2)
+        >>> df2 = gdf.set_geometry("buffered")
+        >>> df2.geometry
+        0    POLYGON ((3 2, 2.99037 1.80397, 2.96157 1.6098...
+        1    POLYGON ((4 1, 3.99037 0.80397, 3.96157 0.6098...
+        Name: buffered, dtype: geometry
+    
+        Returns
+        -------
+        GeoDataFrame
+    
+        See Also
+        --------
+        GeoDataFrame.rename_geometry : rename an active geometry column
+        """
+        # Most of the code here is taken from DataFrame.set_index()
+        if inplace:
+            frame = self
+        else:
+            if PANDAS_GE_30:
+                frame = self.copy(deep=False)
+            else:
+                frame = self.copy()
+    
+        geo_column_name = self._geometry_column_name
+    
+        if geo_column_name is None:
+            geo_column_name = "geometry"
+        if isinstance(col, Series | list | np.ndarray | GeometryArray):
+            if drop:
+                msg = (
+                    "The `drop` keyword argument is deprecated and has no effect when "
+                    "`col` is an array-like value. You should stop passing `drop` to "
+                    "`set_geometry` when this is the case."
+                )
+                warnings.warn(msg, category=FutureWarning, stacklevel=2)
+            if isinstance(col, Series) and col.name is not None:
+                geo_column_name = col.name
+    
+            level = col
+        elif hasattr(col, "ndim") and col.ndim > 1:
+            raise ValueError("Must pass array with one dimension only.")
+        else:  # should be a colname
+            try:
+>               level = frame[col]
+                        ^^^^^^^^^^
+
+.venv\Lib\site-packages\geopandas\geodataframe.py:423: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Empty GeoDataFrame
+Columns: []
+Index: [], key = 'geometry'
+
+    def __getitem__(self, key):
+        """
+        If the result is a column containing only 'geometry', return a
+        GeoSeries. If it's a DataFrame with any columns of GeometryDtype,
+        return a GeoDataFrame.
+        """
+>       result = super().__getitem__(key)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\geopandas\geodataframe.py:1933: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Empty GeoDataFrame
+Columns: []
+Index: [], key = 'geometry'
+
+    def __getitem__(self, key):
+        check_dict_or_set_indexers(key)
+        key = lib.item_from_zerodim(key)
+        key = com.apply_if_callable(key, self)
+    
+        if is_hashable(key, allow_slice=False) and not is_iterator(key):
+            # is_iterator to exclude generator e.g. test_getitem_listlike
+            # As of Python 3.12, slice is hashable which breaks MultiIndex (GH#57500)
+    
+            # shortcut if the key is in columns
+            is_mi = isinstance(self.columns, MultiIndex)
+            # GH#45316 Return view if key is not duplicated
+            # Only use drop_duplicates with duplicates for performance
+            if not is_mi and (
+                (self.columns.is_unique and key in self.columns)
+                or key in self.columns.drop_duplicates(keep=False)
+            ):
+                return self._get_item(key)
+    
+            elif is_mi and self.columns.is_unique and key in self.columns:
+                return self._getitem_multilevel(key)
+    
+        # Do we have a slicer (on rows)?
+        if isinstance(key, slice):
+            return self._getitem_slice(key)
+    
+        # Do we have a (boolean) DataFrame?
+        if isinstance(key, DataFrame):
+            return self.where(key)
+    
+        # Do we have a (boolean) 1d indexer?
+        if com.is_bool_indexer(key):
+            return self._getitem_bool_array(key)
+    
+        # We are left with two options: a single key, and a collection of keys,
+        # We interpret tuples as collections only for non-MultiIndex
+        is_single_key = isinstance(key, tuple) or not is_list_like(key)
+    
+        if is_single_key:
+            if self.columns.nlevels > 1:
+                return self._getitem_multilevel(key)
+>           indexer = self.columns.get_loc(key)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pandas\core\frame.py:4378: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = RangeIndex(start=0, stop=0, step=1), key = 'geometry'
+
+    def get_loc(self, key) -> int:
+        """
+        Get integer location for requested label.
+    
+        Parameters
+        ----------
+        key : int or float
+            Label to locate. Integer-like floats (e.g. 3.0) are accepted and
+            treated as the corresponding integer. Non-integer floats and other
+            non-integer labels are not valid and will raise KeyError or
+            InvalidIndexError.
+    
+        Returns
+        -------
+        int
+            Integer location of the label within the RangeIndex.
+    
+        Raises
+        ------
+        KeyError
+            If the label is not present in the RangeIndex or the label is a
+            non-integer value.
+        InvalidIndexError
+            If the label is of an invalid type for the RangeIndex.
+    
+        See Also
+        --------
+        RangeIndex.get_slice_bound : Calculate slice bound that corresponds to
+            given label.
+        RangeIndex.get_indexer : Computes indexer and mask for new index given
+            the current index.
+        RangeIndex.get_non_unique : Returns indexer and masks for new index given
+            the current index.
+        RangeIndex.get_indexer_for : Returns an indexer even when non-unique.
+    
+        Examples
+        --------
+        >>> idx = pd.RangeIndex(5)
+        >>> idx.get_loc(3)
+        3
+    
+        >>> idx = pd.RangeIndex(2, 10, 2)  # values [2, 4, 6, 8]
+        >>> idx.get_loc(6)
+        2
+        """
+        if is_integer(key) or (is_float(key) and key.is_integer()):
+            new_key = int(key)
+            try:
+                return self._range.index(new_key)
+            except ValueError as err:
+                raise KeyError(key) from err
+        if isinstance(key, Hashable):
+>           raise KeyError(key)
+E           KeyError: 'geometry'
+
+.venv\Lib\site-packages\pandas\core\indexes\range.py:535: KeyError
+
+During handling of the above exception, another exception occurred:
+
+    def test_internal_gap_between_four_parcels_is_distributed_without_overlap():
+        source = parcels(
+            [
+                box(0, 0, 9, 20),
+                box(11, 0, 20, 20),
+                box(9, 0, 11, 9),
+                box(9, 11, 11, 20),
+            ]
+        )
+    
+>       result = _topology_cleanup(source, tolerance_m=5)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_topology_cleanup.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+frame =   parcel_id                                     geometry
+0  parcel-0        POLYGON ((9 0, 9 20, 0 20, 0 0, 9 0))
+1  p...0 0))
+2  parcel-2       POLYGON ((11 0, 11 9, 9 9, 9 0, 11 0))
+3  parcel-3  POLYGON ((11 11, 11 20, 9 20, 9 11, 11 11))
+tolerance_m = 5
+
+    def _topology_cleanup(frame: gpd.GeoDataFrame, tolerance_m: float) -> TopologyCleanupResult:
+        """Repair all eligible internal conflict regions without order-dependent bias."""
+        clean = frame.copy()
+        coverage = unary_union(clean.geometry.tolist())
+        gap_candidates = interior_gap_polygons(clean.geometry.boundary, coverage)
+>       pair_overlaps = _find_overlaps(clean)
+                        ^^^^^^^^^^^^^^^^^^^^^
+
+src\kml_point_builder\builder.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+frame =   parcel_id                                     geometry
+0  parcel-0        POLYGON ((9 0, 9 20, 0 20, 0 0, 9 0))
+1  p...0 0))
+2  parcel-2       POLYGON ((11 0, 11 9, 9 9, 9 0, 11 0))
+3  parcel-3  POLYGON ((11 11, 11 20, 9 20, 9 11, 11 11))
+
+    def _find_overlaps(frame: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+        rows: list[dict] = []
+        index = frame.sindex
+        for left_index, left in enumerate(frame.geometry):
+            for right_index in index.query(left, predicate="intersects"):
+                if right_index <= left_index:
+                    continue
+                overlap = left.intersection(frame.geometry.iloc[right_index])
+                if overlap.geom_type in {"Polygon", "MultiPolygon"} and overlap.area > 0:
+                    rows.append({"parcel_id_a": frame.iloc[left_index]["parcel_id"], "parcel_id_b": frame.iloc[right_index]["parcel_id"], "area_m2": overlap.area, "geometry": overlap})
+>       return gpd.GeoDataFrame(rows, geometry="geometry", crs=frame.crs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+src\kml_point_builder\builder.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Empty GeoDataFrame
+Columns: []
+Index: [], data = []
+geometry = 'geometry'
+crs = <Projected CRS: EPSG:32636>
+Name: WGS 84 / UTM zone 36N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: ...method: Transverse Mercator
+Datum: World Geodetic System 1984 ensemble
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+
+args = (), kwargs = {}
+
+    def __init__(
+        self,
+        data=None,
+        *args,
+        geometry: Any | None = None,
+        crs: Any | None = None,
+        **kwargs,
+    ):
+        if (
+            kwargs.get("copy") is None
+            and isinstance(data, DataFrame)
+            and not isinstance(data, GeoDataFrame)
+        ):
+            kwargs.update(copy=True)
+    
+        if data is None and "columns" not in kwargs:
+            # pandas will interpret "str" as object dtype for pandas < 3 and
+            # as string dtype for pandas >= 3. This ensures we still get string
+            # columns when doing GeoDataFrame(geometry=[..])
+            kwargs["columns"] = pd.Index([], dtype="str")
+    
+        super().__init__(data, *args, **kwargs)
+    
+        if isinstance(data, DataFrame) and data.attrs:
+            self.attrs = data.attrs
+    
+        # set_geometry ensures the geometry data have the proper dtype,
+        # but is not called if `geometry=None` ('geometry' column present
+        # in the data), so therefore need to ensure it here manually
+        # but within a try/except because currently non-geometries are
+        # allowed in that case
+        # TODO do we want to raise / return normal DataFrame in this case?
+    
+        # if gdf passed in and geo_col is set, we use that for geometry
+        if geometry is None and isinstance(data, GeoDataFrame):
+            self._geometry_column_name = data._geometry_column_name
+            if crs is not None and data.crs != crs:
+                raise ValueError(crs_mismatch_error)
+    
+        if (
+            geometry is None
+            and self.columns.nlevels == 1
+            and "geometry" in self.columns
+        ):
+            # Check for multiple columns with name "geometry". If there are,
+            # self["geometry"] is a gdf and constructor gets recursively recalled
+            # by pandas internals trying to access this
+            if (self.columns == "geometry").sum() > 1:
+                raise ValueError(
+                    "GeoDataFrame does not support multiple columns "
+                    "using the geometry column name 'geometry'."
+                )
+    
+            # only if we have actual geometry values -> call set_geometry
+            if (
+                hasattr(self["geometry"].values, "crs")
+                and self["geometry"].values.crs
+                and crs
+                and not self["geometry"].values.crs == crs
+            ):
+                raise ValueError(crs_mismatch_error)
+            # If "geometry" is potentially coercible to geometry, we try and convert it
+            geom_dtype = self["geometry"].dtype
+            if (
+                geom_dtype == "geometry"  # noqa: PLR1714
+                or geom_dtype == "object"
+                # special case for geometry = [], has float dtype
+                or (len(self) == 0 and geom_dtype == "float")
+                # special case for geometry = [np.nan]
+                or ((not self.empty) and self["geometry"].isna().all())
+            ):
+                try:
+                    self["geometry"] = _ensure_geometry(self["geometry"].values, crs)
+                except TypeError:
+                    pass
+                else:
+                    # feed through to call set geometry below
+                    geometry = "geometry"
+    
+        if geometry is not None:
+            if (
+                hasattr(geometry, "crs")
+                and geometry.crs
+                and crs
+                and not geometry.crs == crs
+            ):
+                raise ValueError(crs_mismatch_error)
+    
+            if isinstance(geometry, pd.Series) and geometry.name not in (
+                "geometry",
+                None,
+            ):
+                # __init__ always creates geometry col named "geometry"
+                # rename as `set_geometry` respects the given series name
+                geometry = geometry.rename("geometry")
+    
+>           self.set_geometry(geometry, inplace=True, crs=crs)
+
+.venv\Lib\site-packages\geopandas\geodataframe.py:246: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Empty GeoDataFrame
+Columns: []
+Index: [], col = 'geometry', drop = None
+inplace = True
+crs = <Projected CRS: EPSG:32636>
+Name: WGS 84 / UTM zone 36N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: ...method: Transverse Mercator
+Datum: World Geodetic System 1984 ensemble
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+
+
+    def set_geometry(
+        self,
+        col,
+        drop: bool | None = None,
+        inplace: bool = False,
+        crs: Any | None = None,
+    ) -> GeoDataFrame | None:
+        """
+        Set the GeoDataFrame geometry using either an existing column or
+        the specified input. By default yields a new object.
+    
+        The original geometry column is replaced with the input.
+    
+        Parameters
+        ----------
+        col : column label or array-like
+            An existing column name or values to set as the new geometry column.
+            If values (array-like, (Geo)Series) are passed, then if they are named
+            (Series) the new geometry column will have the corresponding name,
+            otherwise the existing geometry column will be replaced. If there is
+            no existing geometry column, the new geometry column will use the
+            default name "geometry".
+        drop : boolean, default False
+            When specifying a named Series or an existing column name for `col`,
+            controls if the previous geometry column should be dropped from the
+            result. The default of False keeps both the old and new geometry column.
+    
+            .. deprecated:: 1.0.0
+    
+        inplace : boolean, default False
+            Modify the GeoDataFrame in place (do not create a new object)
+        crs : pyproj.CRS, optional
+            Coordinate system to use. The value can be anything accepted
+            by :meth:`pyproj.CRS.from_user_input() <pyproj.crs.CRS.from_user_input>`,
+            such as an authority string (eg "EPSG:4326") or a WKT string.
+            If passed, overrides both DataFrame and col's crs.
+            Otherwise, tries to get crs from passed col values or DataFrame.
+    
+        Examples
+        --------
+        >>> from shapely.geometry import Point
+        >>> d = {'col1': ['name1', 'name2'], 'geometry': [Point(1, 2), Point(2, 1)]}
+        >>> gdf = geopandas.GeoDataFrame(d, crs="EPSG:4326")
+        >>> gdf
+            col1     geometry
+        0  name1  POINT (1 2)
+        1  name2  POINT (2 1)
+    
+        Passing an array:
+    
+        >>> df1 = gdf.set_geometry([Point(0,0), Point(1,1)])
+        >>> df1
+            col1     geometry
+        0  name1  POINT (0 0)
+        1  name2  POINT (1 1)
+    
+        Using existing column:
+    
+        >>> gdf["buffered"] = gdf.buffer(2)
+        >>> df2 = gdf.set_geometry("buffered")
+        >>> df2.geometry
+        0    POLYGON ((3 2, 2.99037 1.80397, 2.96157 1.6098...
+        1    POLYGON ((4 1, 3.99037 0.80397, 3.96157 0.6098...
+        Name: buffered, dtype: geometry
+    
+        Returns
+        -------
+        GeoDataFrame
+    
+        See Also
+        --------
+        GeoDataFrame.rename_geometry : rename an active geometry column
+        """
+        # Most of the code here is taken from DataFrame.set_index()
+        if inplace:
+            frame = self
+        else:
+            if PANDAS_GE_30:
+                frame = self.copy(deep=False)
+            else:
+                frame = self.copy()
+    
+        geo_column_name = self._geometry_column_name
+    
+        if geo_column_name is None:
+            geo_column_name = "geometry"
+        if isinstance(col, Series | list | np.ndarray | GeometryArray):
+            if drop:
+                msg = (
+                    "The `drop` keyword argument is deprecated and has no effect when "
+                    "`col` is an array-like value. You should stop passing `drop` to "
+                    "`set_geometry` when this is the case."
+                )
+                warnings.warn(msg, category=FutureWarning, stacklevel=2)
+            if isinstance(col, Series) and col.name is not None:
+                geo_column_name = col.name
+    
+            level = col
+        elif hasattr(col, "ndim") and col.ndim > 1:
+            raise ValueError("Must pass array with one dimension only.")
+        else:  # should be a colname
+            try:
+                level = frame[col]
+            except KeyError:
+>               raise ValueError(f"Unknown column {col}")
+E               ValueError: Unknown column geometry
+
+.venv\Lib\site-packages\geopandas\geodataframe.py:425: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_topology_cleanup.py::test_internal_gap_between_four_parcels_is_distributed_without_overlap - ValueError: Unknown column geometry
+============================== 1 failed in 1.72s ==============================
