@@ -1,0 +1,2 @@
+[console_scripts]
+kml-point-builder = kml_point_builder.gui:main

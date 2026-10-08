@@ -1,0 +1,218 @@
+527 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+678 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.8
+724 INFO: Python: 3.11.10 (conda)
+777 INFO: Platform: Windows-10-10.0.19045-SP0
+815 INFO: Python environment: D:\WORK\python_projects\kml_point_builder\.venv
+856 INFO: wrote D:\WORK\python_projects\kml_point_builder\KML Point Builder.spec
+898 INFO: Removing temporary files and cleaning cache in C:\Users\Mustafa\AppData\Local\pyinstaller
+323 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+296 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+376 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+5888 INFO: Module search paths (PYTHONPATH):
+['D:\\WORK\\python_projects\\kml_point_builder',
+ 'C:\\Program '
+ 'Files\\ArcGIS\\Pro\\bin\\Python\\envs\\arcgispro-py3\\python311.zip',
+ 'C:\\Program Files\\ArcGIS\\Pro\\bin\\Python\\envs\\arcgispro-py3\\DLLs',
+ 'C:\\Program Files\\ArcGIS\\Pro\\bin\\Python\\envs\\arcgispro-py3\\Lib',
+ 'C:\\Program Files\\ArcGIS\\Pro\\bin\\Python\\envs\\arcgispro-py3',
+ 'D:\\WORK\\python_projects\\kml_point_builder\\.venv',
+ 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages',
+ 'D:\\WORK\\python_projects\\kml_point_builder\\src',
+ 'D:\\WORK\\python_projects\\kml_point_builder\\src']
+310 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+7117 INFO: Appending 'datas' from .spec
+7170 INFO: checking Analysis
+7171 INFO: Building Analysis because Analysis-00.toc is non existent
+7172 INFO: Looking for Python shared library...
+7173 INFO: Using Python shared library: C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python311.dll
+7174 INFO: Running Analysis Analysis-00.toc
+7175 INFO: Target bytecode optimization level: 0
+7175 INFO: Initializing module dependency graph...
+7177 INFO: Initializing module graph hook caches...
+7210 INFO: Analyzing modules for base_library.zip ...
+319 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+315 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+399 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+10967 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11264 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+373 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+15107 INFO: Processing standard module hook 'hook-math.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15390 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18182 INFO: Caching module dependency graph...
+18279 INFO: Analyzing D:\WORK\python_projects\kml_point_builder\src\kml_point_builder\gui.py
+18295 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+18363 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+19043 INFO: Processing standard module hook 'hook-_tkinter.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19173 INFO: Analyzing hidden import 'pyogrio'
+19180 INFO: Processing standard module hook 'hook-shapely.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+19244 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19300 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19863 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+19865 INFO: SetuptoolsInfo: initializing cached setuptools info...
+765 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+21742 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+22155 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+22519 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+23004 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+24375 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+25337 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+28355 INFO: Processing standard module hook 'hook-certifi.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+28379 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+28476 INFO: Processing standard module hook 'hook-pyproj.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+28522 WARNING: Datas for pyproj not found at:
+D:\WORK\python_projects\kml_point_builder\.venv\Library\share\proj
+28885 INFO: Processing standard module hook 'hook-geopandas.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+28932 INFO: Processing standard module hook 'hook-pandas.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+308 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+32288 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+34926 INFO: Processing standard module hook 'hook-pandas.io.formats.style.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+40433 INFO: Processing standard module hook 'hook-pandas.plotting.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+41478 INFO: Processing standard module hook 'hook-dateutil.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+41886 INFO: Processing pre-safe-import-module hook 'hook-six.moves.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+44448 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+296 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+45526 INFO: Processing standard module hook 'hook-pandas.io.clipboard.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+45846 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+45861 INFO: Processing standard module hook 'hook-xml.dom.domreg.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+47736 INFO: Analyzing hidden import 'pyogrio._geometry'
+47740 INFO: Analyzing hidden import 'pyogrio.tests'
+47741 INFO: Analyzing hidden import 'pyogrio.tests.conftest'
+47766 INFO: Analyzing hidden import 'pyogrio.tests.test_arrow'
+47882 INFO: Analyzing hidden import 'pyogrio.tests.test_core'
+47937 INFO: Analyzing hidden import 'pyogrio.tests.test_geopandas_io'
+48143 INFO: Analyzing hidden import 'pyogrio.tests.test_path'
+48165 INFO: Analyzing hidden import 'pyogrio.tests.test_raw_io'
+48261 INFO: Analyzing hidden import 'pyogrio.tests.test_util'
+48266 INFO: Analyzing hidden import 'pyproj.__main__'
+48274 INFO: Analyzing hidden import 'shapely._geos'
+48276 INFO: Analyzing hidden import 'shapely.conftest'
+48282 INFO: Analyzing hidden import 'shapely.plotting'
+48290 INFO: Analyzing hidden import 'shapely.speedups'
+48291 INFO: Analyzing hidden import 'shapely.testing'
+48304 INFO: Analyzing hidden import 'shapely.tests'
+48306 INFO: Analyzing hidden import 'shapely.tests.common'
+48319 INFO: Analyzing hidden import 'shapely.tests.geometry'
+48322 INFO: Analyzing hidden import 'shapely.tests.geometry.test_collection'
+48331 INFO: Analyzing hidden import 'shapely.tests.geometry.test_coords'
+48346 INFO: Analyzing hidden import 'shapely.tests.geometry.test_decimal'
+48354 INFO: Analyzing hidden import 'shapely.tests.geometry.test_emptiness'
+48365 INFO: Analyzing hidden import 'shapely.tests.geometry.test_equality'
+48387 INFO: Analyzing hidden import 'shapely.tests.geometry.test_format'
+48398 INFO: Analyzing hidden import 'shapely.tests.geometry.test_geometry_base'
+48432 INFO: Analyzing hidden import 'shapely.tests.geometry.test_hash'
+48439 INFO: Analyzing hidden import 'shapely.tests.geometry.test_linestring'
+48466 INFO: Analyzing hidden import 'shapely.tests.geometry.test_multi'
+48468 INFO: Analyzing hidden import 'shapely.tests.geometry.test_multilinestring'
+48481 INFO: Analyzing hidden import 'shapely.tests.geometry.test_multipoint'
+48492 INFO: Analyzing hidden import 'shapely.tests.geometry.test_multipolygon'
+48511 INFO: Analyzing hidden import 'shapely.tests.geometry.test_point'
+48523 INFO: Analyzing hidden import 'shapely.tests.geometry.test_polygon'
+48562 INFO: Analyzing hidden import 'shapely.tests.legacy'
+48564 INFO: Analyzing hidden import 'shapely.tests.legacy.conftest'
+48566 INFO: Analyzing hidden import 'shapely.tests.legacy.test_affinity'
+48591 INFO: Analyzing hidden import 'shapely.tests.legacy.test_box'
+48593 INFO: Analyzing hidden import 'shapely.tests.legacy.test_buffer'
+48607 INFO: Analyzing hidden import 'shapely.tests.legacy.test_cga'
+48612 INFO: Analyzing hidden import 'shapely.tests.legacy.test_clip_by_rect'
+48652 INFO: Analyzing hidden import 'shapely.tests.legacy.test_create_inconsistent_dimensionality'
+48663 INFO: Analyzing hidden import 'shapely.tests.legacy.test_delaunay'
+48668 INFO: Analyzing hidden import 'shapely.tests.legacy.test_empty_polygons'
+48672 INFO: Analyzing hidden import 'shapely.tests.legacy.test_equality'
+48676 INFO: Analyzing hidden import 'shapely.tests.legacy.test_geointerface'
+48682 INFO: Analyzing hidden import 'shapely.tests.legacy.test_invalid_geometries'
+48686 INFO: Analyzing hidden import 'shapely.tests.legacy.test_linear_referencing'
+48696 INFO: Analyzing hidden import 'shapely.tests.legacy.test_linemerge'
+48702 INFO: Analyzing hidden import 'shapely.tests.legacy.test_locale'
+48708 INFO: Analyzing hidden import 'shapely.tests.legacy.test_make_valid'
+48713 INFO: Analyzing hidden import 'shapely.tests.legacy.test_mapping'
+48716 INFO: Analyzing hidden import 'shapely.tests.legacy.test_minimum_clearance'
+48719 INFO: Analyzing hidden import 'shapely.tests.legacy.test_ndarrays'
+48725 INFO: Analyzing hidden import 'shapely.tests.legacy.test_nearest'
+48727 INFO: Analyzing hidden import 'shapely.tests.legacy.test_operations'
+48734 INFO: Analyzing hidden import 'shapely.tests.legacy.test_operators'
+48743 INFO: Analyzing hidden import 'shapely.tests.legacy.test_orient'
+48753 INFO: Analyzing hidden import 'shapely.tests.legacy.test_parallel_offset'
+48761 INFO: Analyzing hidden import 'shapely.tests.legacy.test_persist'
+48765 INFO: Analyzing hidden import 'shapely.tests.legacy.test_pickle'
+48772 INFO: Analyzing hidden import 'shapely.tests.legacy.test_polygonize'
+48778 INFO: Analyzing hidden import 'shapely.tests.legacy.test_polylabel'
+48783 INFO: Analyzing hidden import 'shapely.tests.legacy.test_predicates'
+48792 INFO: Analyzing hidden import 'shapely.tests.legacy.test_prepared'
+48801 INFO: Analyzing hidden import 'shapely.tests.legacy.test_products_z'
+48804 INFO: Analyzing hidden import 'shapely.tests.legacy.test_shape'
+48810 INFO: Analyzing hidden import 'shapely.tests.legacy.test_shared_paths'
+48815 INFO: Analyzing hidden import 'shapely.tests.legacy.test_singularity'
+48817 INFO: Analyzing hidden import 'shapely.tests.legacy.test_snap'
+48819 INFO: Analyzing hidden import 'shapely.tests.legacy.test_split'
+48851 INFO: Analyzing hidden import 'shapely.tests.legacy.test_substring'
+48879 INFO: Analyzing hidden import 'shapely.tests.legacy.test_svg'
+48891 INFO: Analyzing hidden import 'shapely.tests.legacy.test_transform'
+48907 INFO: Analyzing hidden import 'shapely.tests.legacy.test_union'
+48914 INFO: Analyzing hidden import 'shapely.tests.legacy.test_validation'
+48917 INFO: Analyzing hidden import 'shapely.tests.legacy.test_vectorized'
+48929 INFO: Analyzing hidden import 'shapely.tests.legacy.test_voronoi_diagram'
+48940 INFO: Analyzing hidden import 'shapely.tests.legacy.test_wkb'
+48957 INFO: Analyzing hidden import 'shapely.tests.legacy.test_wkt'
+48962 INFO: Analyzing hidden import 'shapely.tests.legacy.threading_test'
+48964 INFO: Analyzing hidden import 'shapely.tests.test_constructive'
+49094 INFO: Analyzing hidden import 'shapely.tests.test_coordinates'
+49129 INFO: Analyzing hidden import 'shapely.tests.test_coverage'
+49167 INFO: Analyzing hidden import 'shapely.tests.test_creation'
+49217 INFO: Analyzing hidden import 'shapely.tests.test_creation_indices'
+49270 INFO: Analyzing hidden import 'shapely.tests.test_decorators'
+49284 INFO: Analyzing hidden import 'shapely.tests.test_geometry'
+49332 INFO: Analyzing hidden import 'shapely.tests.test_io'
+49467 INFO: Analyzing hidden import 'shapely.tests.test_linear'
+49497 INFO: Analyzing hidden import 'shapely.tests.test_measurement'
+49516 INFO: Analyzing hidden import 'shapely.tests.test_misc'
+49677 INFO: Analyzing hidden import 'shapely.tests.test_plotting'
+49691 INFO: Analyzing hidden import 'shapely.tests.test_predicates'
+49728 INFO: Analyzing hidden import 'shapely.tests.test_ragged_array'
+49769 INFO: Analyzing hidden import 'shapely.tests.test_set_operations'
+49809 INFO: Analyzing hidden import 'shapely.tests.test_strtree'
+49981 INFO: Analyzing hidden import 'shapely.tests.test_testing'
+49988 INFO: Processing module hooks (post-graph stage)...
+50005 WARNING: Hidden import "jinja2" not found!
+50013 INFO: Processing standard module hook 'hook-_tkinter.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+50016 INFO: Processing standard module hook 'hook-tzdata.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+334 WARNING: Assuming this is not an Anaconda environment or an additional venv/pipenv/... environment manager is being used on top, because the conda-meta folder D:\WORK\python_projects\kml_point_builder\.venv\conda-meta does not exist.
+51607 INFO: Performing binary vs. data reclassification (1278 entries)
+51771 INFO: Looking for ctypes DLLs
+52642 INFO: Analyzing run-time hooks ...
+52650 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+52657 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+52662 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+52667 INFO: Including run-time hook 'pyi_rth_pyproj.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\rthooks'
+52671 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+52767 INFO: Creating base_library.zip...
+52808 INFO: Looking for dynamic libraries
+55158 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\shapely.libs', 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\numpy.libs', 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\pyproj.libs', 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\pandas.libs', 'D:\\WORK\\python_projects\\kml_point_builder\\.venv\\Lib\\site-packages\\pyogrio.libs']
+55161 INFO: Extra DLL search directories (PATH): []
+58398 WARNING: Library not found: could not resolve 'zlib1.dll', dependency of 'C:\\Program Files\\ArcGIS\\Pro\\bin\\Python\\envs\\arcgispro-py3\\DLLs\\tcl86t.dll'.
+58528 INFO: Warnings written to D:\WORK\python_projects\kml_point_builder\build\KML Point Builder\warn-KML Point Builder.txt
+58861 INFO: Graph cross-reference written to D:\WORK\python_projects\kml_point_builder\build\KML Point Builder\xref-KML Point Builder.html
+59047 INFO: checking PYZ
+59049 INFO: Building PYZ because PYZ-00.toc is non existent
+59049 INFO: Building PYZ (ZlibArchive) D:\WORK\python_projects\kml_point_builder\build\KML Point Builder\PYZ-00.pyz
+60448 INFO: Building PYZ (ZlibArchive) D:\WORK\python_projects\kml_point_builder\build\KML Point Builder\PYZ-00.pyz completed successfully.
+60648 INFO: checking PKG
+60650 INFO: Building PKG because PKG-00.toc is non existent
+60651 INFO: Building PKG (CArchive) KML Point Builder.pkg
+60683 INFO: Building PKG (CArchive) KML Point Builder.pkg completed successfully.
+60686 INFO: Bootloader D:\WORK\python_projects\kml_point_builder\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+60687 INFO: checking EXE
+60688 INFO: Building EXE because EXE-00.toc is non existent
+60690 INFO: Building EXE from EXE-00.toc
+60691 INFO: Copying bootloader EXE to D:\WORK\python_projects\kml_point_builder\build\KML Point Builder\KML Point Builder.exe
+60697 INFO: Copying icon to EXE
+60702 INFO: Copying 0 resources to EXE
+60704 INFO: Embedding manifest in EXE
+60710 INFO: Appending PKG archive to EXE
+60720 INFO: Fixing EXE headers
+60935 INFO: Building EXE from EXE-00.toc completed successfully.
+60960 INFO: checking COLLECT
+60962 INFO: Building COLLECT because COLLECT-00.toc is non existent
+60963 INFO: Removing dir D:\WORK\python_projects\kml_point_builder\dist\KML Point Builder
+61505 INFO: Building COLLECT COLLECT-00.toc
+64888 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+65075 INFO: Build complete! The results are available in: D:\WORK\python_projects\kml_point_builder\dist

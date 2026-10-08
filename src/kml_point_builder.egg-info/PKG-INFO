@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: kml-point-builder
+Version: 0.1.0
+Summary: Standalone KML/KMZ parcel reference-point builder
+Requires-Python: >=3.11
+Requires-Dist: geopandas>=1.0
+Requires-Dist: pyogrio>=0.9
+Requires-Dist: shapely>=2.0
+Requires-Dist: pyproj>=3.6
