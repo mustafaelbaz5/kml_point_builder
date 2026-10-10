@@ -34,6 +34,14 @@ def safe_interior_point(geometry: Polygon | MultiPolygon, tolerance_m: float = 0
     return point if geometry.contains(point) else geometry.representative_point()
 
 
+def centered_interior_point(geometry: Polygon | MultiPolygon, safety_margin_m: float = 0.1):
+    """Use the visual centre when it is safe; otherwise return a guaranteed interior point."""
+    centroid = geometry.centroid
+    if geometry.contains(centroid) and centroid.distance(geometry.boundary) >= safety_margin_m:
+        return centroid, "CENTROID_SAFE"
+    return safe_interior_point(geometry), "POLYLABEL_FALLBACK"
+
+
 def maximum_width_m(geometry: Polygon | MultiPolygon) -> float:
     """Return the widest internal span, avoiding repair of broad conflict areas."""
     parts = geometry.geoms if isinstance(geometry, MultiPolygon) else [geometry]

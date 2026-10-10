@@ -9,7 +9,7 @@ from pyproj import CRS
 from shapely import force_2d
 from shapely.ops import unary_union
 
-from .geometry import allocate_region_on_midlines, interior_gap_polygons, maximum_width_m, polygonal_part, safe_interior_point
+from .geometry import allocate_region_on_midlines, centered_interior_point, interior_gap_polygons, maximum_width_m, polygonal_part
 from .models import BuildOptions, BuildResult
 
 
@@ -238,8 +238,9 @@ def build_project(options: BuildOptions) -> BuildResult:
         topology = TopologyCleanupResult(clean, gaps, overlaps, changes, 0, 0, 0, 0, ())
 
     points = clean[["parcel_id", "geometry"]].copy()
-    points["geometry"] = clean.geometry.map(safe_interior_point)
-    points["point_method"] = "polylabel"
+    point_results = clean.geometry.map(centered_interior_point)
+    points["geometry"] = point_results.map(lambda result: result[0])
+    points["point_method"] = point_results.map(lambda result: result[1])
     points["clearance_m"] = points.geometry.distance(clean.geometry.boundary)
     points["point_status"] = "OK"
 
