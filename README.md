@@ -5,32 +5,19 @@ layers without requiring ArcGIS to run the tool.
 
 ## Output
 
-The primary output is one GeoPackage (`.gpkg`) containing:
+Every run creates exactly two files:
 
-- `parcels_original` — source polygons after valid-geometry repair.
-- `parcels_topology_clean` — the working parcel layer after topology cleanup.
-- `reference_points` — one `polylabel` point per parcel carrying `parcel_id`.
-- `gaps_review` — enclosed narrow gaps needing review.
-- `overlaps_review` — overlaps needing review.
-- `topology_changes` — parcels changed by the automatic cleanup and their area delta.
+- `name.gpkg` — a GeoPackage containing `parcels` and `reference_points`.
+- `name.kml` — a KML containing folders with the same `parcels` and
+  `reference_points`.
 
-Optional output: a File Geodatabase (`.gdb`) with clean parcels and reference
-points, plus `name.gdb.zip` containing the complete `.gdb` folder for safe
-transfer, and a KMZ preview for Google Earth. Extract the ZIP before adding the
-Geodatabase to ArcGIS Pro.
+The original parcel outlines are retained as read. The tool does not repair or
+change gaps, overlaps, or shared boundaries.
 
-## Topology policy
-
-The UI repairs **enclosed** gaps and overlaps that are 5 m wide or less by
-default. Each connected conflict is allocated at once between every affected
-parcel using equal-distance shared midlines; this avoids ID or area ordering
-bias and supports conflicts involving more than two parcels.
-
-Large or geometrically unresolvable conflicts are retained in `gaps_review` or
-`overlaps_review` with a status explaining why they need review.
-
-Open gaps at the outer edge of a project are intentionally ignored: they may be
-roads, canals, or unmapped land.
+Each reference point carries the parcel's original `parcel_id`. The tool first
+uses the true centroid when it is safely inside the parcel; for concave or
+irregular parcels it uses an interior fallback point instead. This prevents a
+point from being placed outside its own parcel.
 
 ## Development setup
 
@@ -45,7 +32,7 @@ kml-point-builder
 
 ## ArcGIS Pro workflow
 
-Add `parcels_topology_clean` and `reference_points` from the GeoPackage or File
-Geodatabase. After redrawing parcels in a separate editable layer, run Spatial
-Join with the redrawn polygons as target and `reference_points` as join features.
-Accept only results where `Join_Count = 1`.
+Add `parcels` and `reference_points` from the GeoPackage. After redrawing
+parcels in a separate editable layer, run Spatial Join with the redrawn polygons
+as target and `reference_points` as join features. Accept only results where
+`Join_Count = 1`.

@@ -1,69 +1,29 @@
 import geopandas as gpd
+import pyogrio
 from shapely.geometry import box
 
-from kml_point_builder.builder import _find_overlaps, _topology_cleanup
-from kml_point_builder.geometry import interior_gap_polygons
+from kml_point_builder.builder import build_project
+from kml_point_builder.models import BuildOptions
 
 
-CRS = "EPSG:32636"
-
-
-def parcels(polygons):
-    return gpd.GeoDataFrame(
-        {"parcel_id": [f"parcel-{number}" for number in range(len(polygons))]},
-        geometry=polygons,
-        crs=CRS,
+def test_build_creates_only_parcels_and_reference_points_without_changing_parcels(tmp_path):
+    source = gpd.GeoDataFrame(
+        {"Name": ["parcel-a", "parcel-b"]},
+        geometry=[box(30, 30, 30.001, 30.001), box(30.0012, 30, 30.0022, 30.001)],
+        crs="EPSG:4326",
     )
+    source_path = tmp_path / "source.geojson"
+    source.to_file(source_path, driver="GeoJSON", engine="pyogrio")
 
+    result = build_project(BuildOptions(source_path, tmp_path, "reference"))
 
-def test_internal_gap_between_four_parcels_is_distributed_without_overlap():
-    source = parcels(
-        [
-            box(0, 0, 9, 20),
-            box(11, 0, 20, 20),
-            box(9, 0, 11, 9),
-            box(9, 11, 11, 20),
-        ]
-    )
-
-    result = _topology_cleanup(source, tolerance_m=5)
-
-    assert result.gaps_repaired == 1
-    assert result.affected_parcels == 4
-    assert _find_overlaps(result.parcels).empty
-    assert not interior_gap_polygons(result.parcels.geometry.boundary, result.parcels.union_all())
-
-
-def test_large_internal_gap_is_preserved_for_review():
-    source = parcels(
-        [
-            box(0, 0, 6, 20),
-            box(14, 0, 20, 20),
-            box(6, 0, 14, 6),
-            box(6, 14, 14, 20),
-        ]
-    )
-
-    result = _topology_cleanup(source, tolerance_m=5)
-
-    assert result.gaps_repaired == 0
-    assert len(result.gaps_review) == 1
-    assert result.gaps_review.iloc[0]["status"] == "EXCEEDS_TOLERANCE"
-
-
-def test_open_space_on_project_edge_is_not_treated_as_gap():
-    source = parcels([box(0, 0, 9, 10), box(11, 0, 20, 10)])
-
-    result = _topology_cleanup(source, tolerance_m=5)
-
-    assert result.gaps_repaired == 0
-    assert result.gaps_review.empty
-
-
-def test_three_way_overlap_is_rebuilt_without_remaining_overlap():
-    source = parcels([box(0, 0, 12, 10), box(8, 0, 20, 10), box(9, 8, 11, 20)])
-
-    result = _topology_cleanup(source, tolerance_m=5)
-
-    assert result.overlaps_repaired >= 1
-    assert _find_overlaps(result.parcels).empty
+    assert result.geopackage.exists()
+    assert result.kml.exists()
+    assert {layer[0] for layer in pyogrio.list_layers(result.geopackage)} == {"parcels", "reference_points"}
+    parcels = gpd.read_file(result.geopackage, layer="parcels")
+    points = gpd.read_file(result.geopackage, layer="reference_points")
+    assert list(parcels["parcel_id"]) == ["parcel-a", "parcel-b"]
+    assert list(points["parcel_id"]) == ["parcel-a", "parcel-b"]
+    assert all(parcel.contains(point) for parcel, point in zip(parcels.geometry, points.geometry))
+    assert "<name>parcels</name>" in result.kml.read_text(encoding="utf-8")
+    assert "<name>reference_points</name>" in result.kml.read_text(encoding="utf-8")
