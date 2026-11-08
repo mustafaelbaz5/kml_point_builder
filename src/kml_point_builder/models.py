@@ -10,12 +10,16 @@ class BuildOptions:
     output_directory: Path
     output_stem: str
     parcel_id_field: str | None = None
+    create_qfield_project: bool = True
 
 
 @dataclass(frozen=True)
 class BuildResult:
+    output_directory: Path
     geopackage: Path
     kml: Path
+    qgis_project: Path | None
+    attachments_directory: Path
     parcel_count: int
     point_count: int
     warnings: tuple[str, ...]

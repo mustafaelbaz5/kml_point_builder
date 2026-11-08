@@ -21,7 +21,7 @@ class Application(ttk.Frame):
 
     def _build(self) -> None:
         self.root.title("KML Point Builder")
-        self.root.minsize(690, 330)
+        self.root.minsize(690, 360)
         ttk.Label(self, text="KML Point Builder", font=("Segoe UI", 18, "bold")).grid(
             row=0, column=0, columnspan=3, sticky="w"
         )
@@ -35,7 +35,7 @@ class Application(ttk.Frame):
         ttk.Separator(self).grid(row=4, column=0, columnspan=3, sticky="ew", pady=15)
         ttk.Label(
             self,
-            text="الناتج الثابت: ملف GeoPackage وملف KML، وفي كل منهما القطع والنقاط المرجعية.",
+            text="الناتج: GeoPackage وKML ومشروع QField ومجلد DCIM للصور المرتبطة بكل قطعة.",
             wraplength=620,
         ).grid(row=5, column=0, columnspan=3, sticky="w")
         self.run_button = ttk.Button(self, text="إنشاء المشروع", command=self._run)
@@ -88,14 +88,20 @@ class Application(ttk.Frame):
             result = build_project(options)
             message = (
                 f"تم إنشاء {result.parcel_count} قطعة و{result.point_count} نقطة.\n"
+                f"مجلد النتائج: {result.output_directory}\n"
                 f"GeoPackage: {result.geopackage}\n"
-                f"KML: {result.kml}"
+                f"KML: {result.kml}\n"
+                f"مشروع QField: {result.qgis_project}\n"
+                f"مجلد الصور: {result.attachments_directory}"
             )
             if result.warnings:
                 message += "\n\nتنبيهات:\n" + "\n".join(result.warnings)
             self.root.after(0, lambda: self._complete(message, False))
         except Exception as error:  # surfaced clearly to the operator
-            self.root.after(0, lambda: self._complete(str(error), True))
+            # Keep the text, not the exception variable: Python clears the
+            # latter after ``except`` to avoid reference cycles.
+            error_message = str(error)
+            self.root.after(0, lambda: self._complete(error_message, True))
 
     def _complete(self, message: str, failed: bool) -> None:
         self.run_button.state(["!disabled"])
